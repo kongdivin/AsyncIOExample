@@ -31,8 +31,10 @@
 *.out
 *.app
 
+.vscode/
 .cproject
 .project
 .settings/
 
 Debug/
+build/

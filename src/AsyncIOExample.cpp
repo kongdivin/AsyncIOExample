@@ -22,6 +22,31 @@ int const MAX_CONN = 1'000;
 int epollfd;
 epoll_event ev;
 
+string const route0 = "GET / HTTP/1.1";
+string const response404 = "HTTP/1.1 404 NOT FOUND\r\n"
+						   "Content-Type: text/html\r\n"
+						   "\r\n"
+						   "<html lang='en'>"
+						   "<head>"
+						   "	<title>AsyncIOExample</title>"
+						   "</head>"
+						   "<body>"
+						   "	<p>404 NOT FOUND</p>"
+						   "</body>"
+						   "</html>";
+string const response200 = "HTTP/1.1 200 OK\r\n"
+						   "Content-Type: text/html\r\n"
+						   "\r\n"
+						   "<html lang='en'>"
+						   "<head>"
+						   "	<title>AsyncIOExample</title>"
+						   "</head>"
+						   "<body>"
+						   "	<h1>AsyncIOExample</h1>"
+						   "	<p>Hello, World!</p>"
+						   "</body>"
+						   "</html>";
+
 void panic(string err)
 {
 	perror(err.c_str());
@@ -44,8 +69,6 @@ void handle_request(int sockfd)
 	char buffer[1024] = {0};
 	int status;
 
-	string route = "GET / HTTP/1.1";
-
 	try
 	{
 		/********************************************************************************
@@ -60,31 +83,9 @@ void handle_request(int sockfd)
 			cout << request << endl;
 
 			string response =
-				request.compare(0, route.length(), route) == 0
-					? "HTTP/1.1 200 OK\r\n"
-					  "Content-Type: text/html\r\n"
-					  "\r\n"
-					  "<html lang='en'>"
-					  "<head>"
-					  "	<title>AsyncIOExample</title>"
-					  "</head>"
-					  "<body>"
-					  "	<h1>AsyncIOExample</h1>"
-					  "	<p>Hello, World!</p>"
-					  "</body>"
-					  "</html>"
-
-					: "HTTP/1.1 404 NOT FOUND\r\n"
-					  "Content-Type: text/html\r\n"
-					  "\r\n"
-					  "<html lang='en'>"
-					  "<head>"
-					  "	<title>AsyncIOExample</title>"
-					  "</head>"
-					  "<body>"
-					  "	<p>404 NOT FOUND</p>"
-					  "</body>"
-					  "</html>";
+				request.compare(0, route0.length(), route0) == 0
+					? response200
+					: response404;
 
 			int status = send(sockfd, response.c_str(), response.length(), 0);
 

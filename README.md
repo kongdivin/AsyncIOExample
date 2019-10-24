@@ -1,6 +1,6 @@
 # AsyncIOExample
 
-This is the example code for the blog post — [Non-Blocking IO](https://blog.influxera.com/2018/08/26/non-blocking-io/).
+This is the example code for the blog post — [Non-Blocking IO](https://www.okayish.dev/posts/non-blocking-io/).
 
 
 ### Compile
